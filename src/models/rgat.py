@@ -15,7 +15,6 @@ class NetGAT(torch.nn.Module):
         drpt_prob=0.5,
         scatter="max",
         device="cpu",
-        emb_input=-1,
     ):
         super(NetGAT, self).__init__()
         if emb_sizes is None:  # Python default handling for mutable input
@@ -26,14 +25,6 @@ class NetGAT(torch.nn.Module):
         self.drpt_prob = drpt_prob
         self.scatter = scatter
         self.device = device
-        self.emb_input = emb_input
-
-        if self.emb_input > 0:
-            self.initial_embedding = (
-                torch.nn.Embedding(10, self.emb_sizes[0])
-                .requires_grad_(True)
-                .to(device)
-            )
 
         self.initial_mlp_modules = ModuleList(
             [
@@ -89,15 +80,11 @@ class NetGAT(torch.nn.Module):
         edge_index = data.edge_index.to(self.device)
         edge_weights = data.edge_weights.to(self.device)
 
-        if self.emb_input > 0:
-            x_feat = self.initial_embedding(x_feat).squeeze(
-                1
-            )  # Pass it by the embedding
-        else:
-            x_feat = self.initial_mlp(x_feat)  # Otherwise by an MLP
+        x_feat = self.initial_mlp(x_feat)
 
         out = F.dropout(
-            self.pooling(self.initial_linear(x_feat), data.batch), p=self.drpt_prob
+            self.pooling(self.initial_linear(x_feat), data.batch), 
+            p=self.drpt_prob
         )
 
         for gat_layer, linear_layer in zip(self.gat_modules, self.linear_modules):

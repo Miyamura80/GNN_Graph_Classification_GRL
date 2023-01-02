@@ -9,7 +9,7 @@ from torch_geometric.datasets import TUDataset
 import numpy as np
 
 
-def read_smart_contract_graph(direc, file, processed_root):
+def read_sc_graph(direc, file, processed_root):
     path = osp.join(direc, file + ".json")
     presaved_path = osp.join(processed_root, file + ".pre")
     if not osp.exists(presaved_path):  # The file doesn't exist
@@ -71,10 +71,10 @@ def get_dataset(args, root_dir):
     sc_proc_root = osp.join(dataset_path, f"{args.dataset}_proc")
     print("here")
 
-    train_graphs = read_smart_contract_graph(
+    train_graphs = read_sc_graph(
         dataset_path, "train", sc_proc_root
     )
-    valid_graphs = read_smart_contract_graph(
+    valid_graphs = read_sc_graph(
         dataset_path, "valid", sc_proc_root
     )
     num_feat = 25

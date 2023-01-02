@@ -4,9 +4,7 @@ import torch
 import argparse
 import os.path as osp
 from utils import get_dataset, get_model
-# from experiments.run_gc import run_model_gc
-# from experiments.run_gc_ogb import run_model_gc_ogb
-# from experiments.run_gr import run_model_gr
+from experiments.run_sc_gc import run_sc_model_gc
 
 
 def str2bool(v):
@@ -30,7 +28,7 @@ parser.add_argument(
     "-d", "--dataset", help="Dataset to test the model on.", required=True
 )
 parser.add_argument("-b", "--batch_size", help="Batch size.", default=32, type=int)
-parser.add_argument("-m", "--model", help="The model we will use.", default="HSP-GIN")
+parser.add_argument("-m", "--model", help="The model we will use.", default="GAT")
 
 # Training arguments
 parser.add_argument("--lr", help="Learning rate.", default=0.001, type=float)
@@ -106,28 +104,26 @@ root_dir = osp.join(osp.dirname(osp.realpath(__file__)), "..")
 
 
 
-# train_graphs, valid_graphs, num_feat, num_pred = get_dataset(args, root_dir)
+train_graphs, valid_graphs, num_feat, num_pred = get_dataset(args, root_dir)
 
 print("hi!")
 
 
-# model = get_model(
-#     args,
-#     device,
-#     num_features=num_feat,
-#     num_classes=num_pred,
-# )
+model = get_model(
+    args,
+    device,
+    num_features=num_feat,
+    num_classes=num_pred,
+)
 
 
-# run_model_gc_ogb(
-#     model,
-#     train_graphs,
-#     dataset_name=args.dataset,
-#     evaluator=valid_graphs,
-#     device=device,
-#     lr=args.lr,
-#     batch_size=BATCH,
-#     epochs=args.epochs,
-# )
+run_sc_model_gc(
+    model,
+    train_graphs,
+    valid_graphs,
+    lr=args.lr,
+    batch_size=BATCH,
+    epochs=args.epochs,
+)
 
 
