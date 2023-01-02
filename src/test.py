@@ -1,17 +1,15 @@
-# import time
-# import configparser
-# import torch
-# import argparse
-import os.path as osp
 import sys
-
 import os
+import torch
+from torch_geometric.data import Data
 
 sys.path.insert(0, os.getcwd())
-from utils import fyi
 
-from test2 import displayText
+from utils.test_module import foo
 
-fyi(4)
-print("hello world")
-displayText()
+# from test.test_module import foo
+from test_module2 import foo2
+
+print(foo(7))
+foo2()
+
