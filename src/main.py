@@ -98,7 +98,6 @@ args = parser.parse_args()
 
 
 
-BATCH = args.batch_size
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 root_dir = osp.join(osp.dirname(osp.realpath(__file__)), "..")
 
@@ -106,25 +105,23 @@ root_dir = osp.join(osp.dirname(osp.realpath(__file__)), "..")
 
 train_graphs, valid_graphs, num_feat, num_pred = get_dataset(args, root_dir)
 
-print("hi!")
-print(train_graphs)
-print(valid_graphs)
-
-# model = get_model(
-#     args,
-#     device,
-#     num_features=num_feat,
-#     num_classes=num_pred,
-# )
 
 
-# run_sc_model_gc(
-#     model,
-#     train_graphs,
-#     valid_graphs,
-#     lr=args.lr,
-#     batch_size=BATCH,
-#     epochs=args.epochs,
-# )
+model = get_model(
+    args,
+    device,
+    num_features=num_feat,
+    num_classes=num_pred,
+)
+
+
+run_sc_model_gc(
+    model,
+    train_graphs,
+    valid_graphs,
+    lr=args.lr,
+    batch_size=args.batch_size,
+    epochs=args.epochs,
+)
 
 

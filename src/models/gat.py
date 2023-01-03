@@ -78,7 +78,7 @@ class NetGAT(torch.nn.Module):
     def forward(self, data):
         x_feat = data.x.to(self.device)
         edge_index = data.edge_index.to(self.device)
-        edge_weights = data.edge_weights.to(self.device)
+        edge_attributes = data.edge_attributes.to(self.device)
 
         x_feat = self.initial_mlp(x_feat)
 
@@ -88,7 +88,7 @@ class NetGAT(torch.nn.Module):
         )
 
         for gat_layer, linear_layer in zip(self.gat_modules, self.linear_modules):
-            edges = edge_index.T[edge_weights == 1].T
+            edges = edge_index.T[edge_attributes == 1].T
             x_feat = gat_layer(x_feat, edges).to(self.device)
 
             out += F.dropout(

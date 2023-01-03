@@ -13,9 +13,14 @@ def read_sc_graph(direc, file, processed_root):
     path = osp.join(direc, file + ".json")
     presaved_path = osp.join(processed_root, file + ".pre")
     if not osp.exists(presaved_path):  # The file doesn't exist
-        with gzip.open(path, "r") as f:
-            data = f.read().decode("utf-8")
-            graphs = [json.loads(jline.strip()[:len(jline.strip())-1]) for jline in data.splitlines()]
+        print("making directory")
+        with open(path, "r") as f:
+            data = f.readlines()
+
+            data[0] = data[0][1:] + ""
+            data = [jline.strip()[:len(jline.strip())-1] for jline in data]
+
+            graphs = [json.loads(jline) for jline in data]
             # Load Json into PyG `Data` type
             pyg_graphs = [
                 map_sc_graph_to_pyg(graph, make_undirected=True, remove_dup=False)
@@ -30,6 +35,7 @@ def read_sc_graph(direc, file, processed_root):
             f.close()
             return pyg_graphs
     else:  # Load the pre-existing pickle
+        print("load preexisting")
         with open(presaved_path, "rb") as g:
             pyg_graphs = pickle.load(g)
             g.close()
@@ -61,15 +67,16 @@ def map_sc_graph_to_pyg(json_file, make_undirected=True, remove_dup=False):
             edge_attributes = torch.LongTensor(
                 np.concatenate([edge_attributes, np.copy(edge_attributes)], axis=0)
             )
-    x = torch.FloatTensor(np.array(json_file["node_features"]))
-    y = torch.FloatTensor(np.array(json_file["targets"]).T)
+    features = np.array(json_file["node_features"])
+    features = np.concatenate((features[:, 0:11], features[:,22:36]), axis=1) 
+    x = torch.FloatTensor(features)
+    y = torch.FloatTensor(np.array(int(json_file["targets"])).T)
     return Data(x=x, edge_index=edge_index, edge_attr=edge_attributes, y=y)
 
 
 def get_dataset(args, root_dir):
     dataset_path = osp.join(root_dir, "data", args.dataset)
     sc_proc_root = osp.join(dataset_path, f"{args.dataset}_proc")
-    print("here")
 
     train_graphs = read_sc_graph(
         dataset_path, "train", sc_proc_root

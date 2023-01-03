@@ -1,1 +1,1 @@
-from models.rgat import NetGAT
+from models.gat import NetGAT

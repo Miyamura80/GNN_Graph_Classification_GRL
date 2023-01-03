@@ -1,5 +1,0 @@
-matplotlib==3.6.2
-numpy==1.22.1
-torch==1.13.0
-torch_geometric==2.1.0
-
