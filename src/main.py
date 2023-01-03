@@ -38,7 +38,7 @@ parser.add_argument(
     "--max_distance", help="Maximal distance in HSP model (K)", default=5, type=int
 )
 parser.add_argument(
-    "--num_layers", help="Number of HSP layers in the model.", default=1, type=int
+    "--num_layers", help="Number of HSP layers in the model.", default=2, type=int
 )
 parser.add_argument(
     "--emb_dim", help="Size of the emb dimension.", default=64, type=int
