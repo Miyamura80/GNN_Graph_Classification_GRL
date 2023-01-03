@@ -21,7 +21,7 @@ def train(model, loader, optimizer, loss_fun):
     return loss_all / len(loader.dataset)
 
 
-def val(model, loader, loss_fun, y_idx=0):
+def val(model, loader, loss_fun):
     model.eval()
     loss_all = 0
 
@@ -34,7 +34,6 @@ def val(model, loader, loss_fun, y_idx=0):
 
 def test(model, loader):
     model.eval()
-    total_err = 0
 
     for data in loader:
         data = data.to(avail_device)

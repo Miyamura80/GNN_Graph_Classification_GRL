@@ -38,7 +38,7 @@ parser.add_argument(
     "--max_distance", help="Maximal distance in HSP model (K)", default=5, type=int
 )
 parser.add_argument(
-    "--num_layers", help="Number of HSP layers in the model.", default=2, type=int
+    "--num_layers", help="Number of HSP layers in the model.", default=6, type=int
 )
 parser.add_argument(
     "--emb_dim", help="Size of the emb dimension.", default=64, type=int
@@ -46,52 +46,9 @@ parser.add_argument(
 parser.add_argument("--scatter", help="Max or Mean pooling.", default="max")
 parser.add_argument("--dropout", help="Dropout probability.", default=0.5, type=float)
 parser.add_argument("--eps", help="Epsilon in GIN.", default=0.0, type=float)
-parser.add_argument("--epochs", help="Number of epochs.", default=300, type=int)
+parser.add_argument("--epochs", help="Number of epochs.", default=500, type=int)
 parser.add_argument(
-    "--pool_gc",
-    help="Choose the mode-specific pool (default) or use GC pooling",
-    type=str2bool,
-    default=False,
-)
-parser.add_argument(
-    "--batch_norm",
-    help="Use batch norm within layer MLPs (default True)",
-    type=str2bool,
-    default=True,
-)
-parser.add_argument(
-    "--layer_norm",
-    help="Use layer norm after every message passing iteration (default False)",
-    type=str2bool,
-    default=True,
-)
-parser.add_argument(
-    "--learnable_emb",
-    help="(For synthetic experiments). Whether to set feature embeddings to be "
-    "learnable (Default False)",
-    type=str2bool,
-    default=False,
-)
-parser.add_argument(
-    "--specific_task",
-    help="(For QM9) Run all tasks (-1, default) or a specific task by index",
-    type=int,
-    default=-1,
-)
-parser.add_argument(
-    "--nb_reruns", help="(For QM9) Repeats per task (default 5)", type=int, default=5
-)
-parser.add_argument(
-    "--res_freq",
-    help="The layer interval for residual connections (default: -1, i.e., no residual)",
-    type=int,
-    default=-1,
-)
-parser.add_argument(
-    "--use_feat",
-    help="(OGBG). Whether to use all features (Default False)",
-    type=str2bool,
-    default=False,
+    "--nb_reruns", help="Repeats per task (default 5)", type=int, default=3
 )
 
 args = parser.parse_args()
