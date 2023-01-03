@@ -78,7 +78,7 @@ class NetGAT(torch.nn.Module):
     def forward(self, data):
         x_feat = data.x.to(self.device)
         edge_index = data.edge_index.to(self.device)
-        edge_attributes = data.edge_attributes.to(self.device)
+        edge_attributes = data.edge_attr.to(self.device)
 
         x_feat = self.initial_mlp(x_feat)
 
