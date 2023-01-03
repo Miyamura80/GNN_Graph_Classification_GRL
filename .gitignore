@@ -130,3 +130,5 @@ dmypy.json
 
 # Vscode
 .vscode/
+
+.to_trash/
