@@ -1,11 +1,9 @@
 import json
 from torch_geometric.data import Data
 import torch
-import gzip
 import pickle
 import os
 import os.path as osp
-from torch_geometric.datasets import TUDataset
 import numpy as np
 
 
@@ -70,7 +68,7 @@ def map_sc_graph_to_pyg(json_file, make_undirected=True, remove_dup=False):
     features = np.array(json_file["node_features"])
     features = np.concatenate((features[:, 0:11], features[:,22:36]), axis=1) 
     x = torch.FloatTensor(features)
-    y = torch.FloatTensor(np.array(int(json_file["targets"])).T)
+    y = torch.FloatTensor(np.array([int(json_file["targets"])]).T)
     return Data(x=x, edge_index=edge_index, edge_attr=edge_attributes, y=y)
 
 
