@@ -85,6 +85,3 @@ def get_dataset(args, root_dir):
     num_feat = 25
     num_pred = 1
     return train_graphs, valid_graphs, num_feat, num_pred
-
-def fyi(x):
-    return 2*x
